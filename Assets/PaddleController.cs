@@ -2,91 +2,60 @@ using UnityEngine;
 
 public class PaddleController : MonoBehaviour
 {
-    public float moveSpeed = 10f; // Speed of the paddle's movement
-    public Color[] colors; // Array of paddle colors
-    private int currentColorIndex = 0; // Current color index
-    private SpriteRenderer sr; // Reference to the SpriteRenderer
-    private float screenWidthInUnits = 16f; // Adjust based on the screen width in Unity units
+    public float moveSpeed = 10f;
+
+    private SpriteRenderer sr;
+    private Color[] colorArray; // Shared color array
+    private int currentColorIndex = 0;
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        if (colorArray.Length > 0)
+        {
+            sr.color = colorArray[currentColorIndex];
+        }
+    }
 
-        // Set the initial paddle color
-        if (colors.Length > 0)
-        {
-            sr.color = colors[currentColorIndex];
-        }
-        else
-        {
-            Debug.LogError("No colors assigned to PaddleController!");
-        }
+    public void SetColorArray(Color[] colors)
+    {
+        colorArray = colors;
     }
 
     void Update()
     {
         HandleMovement();
-        HandleColorSwitch();
+        HandleColorCycle();
     }
 
-    // Handles left-right paddle movement
-    void HandleMovement()
+    private void HandleMovement()
     {
-#if UNITY_EDITOR || UNITY_STANDALONE
-        // Use keyboard controls for testing in the editor
         float horizontalInput = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(horizontalInput, 0, 0) * moveSpeed * Time.deltaTime;
         transform.Translate(movement);
 
-        // Clamp the paddle position within screen bounds
-        float clampedX = Mathf.Clamp(transform.position.x, -screenWidthInUnits / 2 + 1, screenWidthInUnits / 2 - 1);
+        // Clamp the paddle within screen bounds
+        float clampedX = Mathf.Clamp(transform.position.x, -8f, 8f);
         transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
-#endif
-
-#if UNITY_IOS || UNITY_ANDROID
-        // Touch-based movement for mobile devices
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10f));
-            transform.position = new Vector3(touchPosition.x, transform.position.y, transform.position.z);
-
-            // Clamp the paddle position within screen bounds
-            float clampedX = Mathf.Clamp(transform.position.x, -screenWidthInUnits / 2 + 1, screenWidthInUnits / 2 - 1);
-            transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
-        }
-#endif
     }
 
-    // Handles color switching (keyboard or screen tap)
-    void HandleColorSwitch()
+    private void HandleColorCycle()
     {
-#if UNITY_EDITOR || UNITY_STANDALONE
-        if (Input.GetKeyDown(KeyCode.Space)) // Keyboard input for testing
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             CycleColor();
         }
-#endif
-
-#if UNITY_IOS || UNITY_ANDROID
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) // Tap for mobile
-        {
-            CycleColor();
-        }
-#endif
     }
 
-    // Cycles through the available colors
-    void CycleColor()
+    private void CycleColor()
     {
-        if (colors.Length > 0)
+        if (colorArray.Length > 0)
         {
-            currentColorIndex = (currentColorIndex + 1) % colors.Length;
-            sr.color = colors[currentColorIndex];
+            currentColorIndex = (currentColorIndex + 1) % colorArray.Length;
+            sr.color = colorArray[currentColorIndex];
         }
     }
 
-    // Returns the current paddle color (for collision checks)
     public Color GetCurrentColor()
     {
         return sr.color;

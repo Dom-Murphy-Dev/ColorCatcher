@@ -1,16 +1,18 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public int score = 0;
-    public int strikes = 0; // Track player strikes
-    public int maxStrikes = 3; // Max allowed strikes before game over
+    public int strikes = 0;
+    public int maxStrikes = 3;
     public TMP_Text scoreText;
-    public TMP_Text strikesText; // Display strikes
+    public TMP_Text strikesText;
     public GameObject gameOverScreen;
     public BallController ball;
+    public PaddleController paddle;
+
+    public Color[] colorArray; // Shared array of colors for the ball and paddle
 
     private bool isGameOver = false;
 
@@ -20,6 +22,10 @@ public class GameManager : MonoBehaviour
         strikes = 0;
         UpdateUI();
         gameOverScreen.SetActive(false);
+
+        // Assign the shared color array to the ball and paddle
+        ball.SetColorArray(colorArray);
+        paddle.SetColorArray(colorArray);
     }
 
     public void AddScore(int points)
@@ -35,6 +41,10 @@ public class GameManager : MonoBehaviour
         if (strikes >= maxStrikes)
         {
             GameOver();
+        }
+        else
+        {
+            ball.ResetBall();
         }
     }
 
@@ -57,12 +67,12 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         ball.StopBall();
         gameOverScreen.SetActive(true);
-        Time.timeScale = 0; // Pause the game
+        Time.timeScale = 0;
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1; // Resume the game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }
