@@ -1166,7 +1166,7 @@ GameObject:
   - component: {fileID: 1752254452}
   - component: {fileID: 1752254451}
   - component: {fileID: 1752254450}
-  - component: {fileID: 1752254449}
+  - component: {fileID: 1752254454}
   m_Layer: 5
   m_Name: Ball
   m_TagString: Ball
@@ -1193,23 +1193,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -185}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1752254449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1752254447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2c9457f4501a0f4b9d4e3216e6da2af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ballRect: {fileID: 1752254448}
-  leftWall: {fileID: 715938269}
-  rightWall: {fileID: 2087691675}
-  topWall: {fileID: 2043193233}
-  speed: 200
 --- !u!50 &1752254450
 Rigidbody2D:
   serializedVersion: 5
@@ -1321,6 +1304,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752254447}
   m_CullTransparentMesh: 1
+--- !u!114 &1752254454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752254447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c9457f4501a0f4b9d4e3216e6da2af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballRect: {fileID: 1752254448}
+  leftWall: {fileID: 715938269}
+  rightWall: {fileID: 2087691675}
+  topWall: {fileID: 2043193233}
+  speed: 500
 --- !u!1 &1831476888
 GameObject:
   m_ObjectHideFlags: 0
