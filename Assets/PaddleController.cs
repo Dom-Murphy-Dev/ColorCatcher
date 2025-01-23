@@ -2,27 +2,23 @@ using UnityEngine;
 
 public class PaddleController : MonoBehaviour
 {
-    public float moveSpeed = 10f;
+    public RectTransform paddleRect; // Paddle RectTransform
+    public float moveSpeed = 1000f; // Speed of paddle movement
+    private int currentColorIndex = 0; // Current color index
+    private GameManager gameManager;
 
-    private SpriteRenderer sr;
-    private Color[] colorArray; // Shared color array
-    private int currentColorIndex = 0;
-
-    void Start()
+    private void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
-        if (colorArray.Length > 0)
+        gameManager = Object.FindFirstObjectByType<GameManager>();
+
+        // Initialize paddle color
+        if (gameManager != null)
         {
-            sr.color = colorArray[currentColorIndex];
+            GetComponent<UnityEngine.UI.Image>().color = gameManager.GetColorAt(currentColorIndex);
         }
     }
 
-    public void SetColorArray(Color[] colors)
-    {
-        colorArray = colors;
-    }
-
-    void Update()
+    private void Update()
     {
         HandleMovement();
         HandleColorCycle();
@@ -31,12 +27,11 @@ public class PaddleController : MonoBehaviour
     private void HandleMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        Vector3 movement = new Vector3(horizontalInput, 0, 0) * moveSpeed * Time.deltaTime;
-        transform.Translate(movement);
+        paddleRect.anchoredPosition += new Vector2(horizontalInput * moveSpeed * Time.deltaTime, 0);
 
-        // Clamp the paddle within screen bounds
-        float clampedX = Mathf.Clamp(transform.position.x, 0f, 1536f);
-        transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
+        // Clamp within screen bounds
+        float clampedX = Mathf.Clamp(paddleRect.anchoredPosition.x, -284f, 276f); // Adjust based on canvas size
+        paddleRect.anchoredPosition = new Vector2(clampedX, paddleRect.anchoredPosition.y);
     }
 
     private void HandleColorCycle()
@@ -49,15 +44,12 @@ public class PaddleController : MonoBehaviour
 
     private void CycleColor()
     {
-        if (colorArray.Length > 0)
-        {
-            currentColorIndex = (currentColorIndex + 1) % colorArray.Length;
-            sr.color = colorArray[currentColorIndex];
-        }
+        currentColorIndex = (currentColorIndex + 1) % gameManager.GetColorCount();
+        GetComponent<UnityEngine.UI.Image>().color = gameManager.GetColorAt(currentColorIndex);
     }
 
     public Color GetCurrentColor()
     {
-        return sr.color;
+        return GetComponent<UnityEngine.UI.Image>().color;
     }
 }

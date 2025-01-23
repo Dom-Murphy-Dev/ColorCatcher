@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -600, y: 300}
+  m_AnchoredPosition: {x: -237, y: 300}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &352098086
@@ -367,7 +367,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -768, y: 0}
+  m_AnchoredPosition: {x: -384, y: 0}
   m_SizeDelta: {x: 10, y: 771}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &715938270
@@ -664,14 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdec433997610544a373055f867a8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  strikes: 0
-  maxStrikes: 3
-  scoreText: {fileID: 352098086}
-  strikesText: {fileID: 1658022324}
-  gameOverScreen: {fileID: 683195411}
-  ball: {fileID: 1752254449}
-  paddle: {fileID: 1831476890}
   colorArray:
   - {r: 1, g: 0, b: 0, a: 0}
   - {r: 1, g: 0.39624783, b: 0, a: 0}
@@ -680,6 +672,12 @@ MonoBehaviour:
   - {r: 0, g: 0.21808434, b: 1, a: 0}
   - {r: 0.6133218, g: 0, b: 1, a: 0}
   - {r: 0.9577589, g: 0, b: 1, a: 0}
+  score: 0
+  strikes: 0
+  maxStrikes: 3
+  scoreText: {fileID: 352098086}
+  strikesText: {fileID: 1658022324}
+  gameOverScreen: {fileID: 683195411}
 --- !u!4 &1221287153
 Transform:
   m_ObjectHideFlags: 0
@@ -842,7 +840,7 @@ Canvas:
   m_GameObject: {fileID: 1521726178}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 2061535931}
   m_PlaneDistance: 20
   m_PixelPerfect: 0
@@ -1016,7 +1014,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -600, y: 248}
+  m_AnchoredPosition: {x: -237, y: 248}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1741387366
@@ -1207,6 +1205,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c9457f4501a0f4b9d4e3216e6da2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballRect: {fileID: 1752254448}
+  leftWall: {fileID: 715938269}
+  rightWall: {fileID: 2087691675}
+  topWall: {fileID: 2043193233}
   speed: 200
 --- !u!50 &1752254450
 Rigidbody2D:
@@ -1356,7 +1358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -285.5}
+  m_AnchoredPosition: {x: 1, y: -285.5}
   m_SizeDelta: {x: 200, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1831476890
@@ -1371,6 +1373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf447b7fdb51f754c978c1adfa7f0f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  paddleRect: {fileID: 1831476889}
   moveSpeed: 300
 --- !u!50 &1831476891
 Rigidbody2D:
@@ -1466,7 +1469,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1655,7 +1658,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1, y: 385}
-  m_SizeDelta: {x: 1548, y: 10}
+  m_SizeDelta: {x: 776, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &2043193234
 BoxCollider2D:
@@ -1691,7 +1694,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.15447998, y: 0}
+  m_Offset: {x: -1.605957, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1701,7 +1704,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1547.8075, y: 10.009888}
+  m_Size: {x: 776.3812, y: 10.009888}
   m_EdgeRadius: 0
 --- !u!114 &2043193235
 MonoBehaviour:
@@ -1928,7 +1931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 770.5, y: 0}
+  m_AnchoredPosition: {x: 384, y: 0}
   m_SizeDelta: {x: 10, y: 771}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &2087691676
