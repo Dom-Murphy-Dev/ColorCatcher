@@ -31,7 +31,7 @@ public class BallController : MonoBehaviour
     private void LaunchBall()
     {
         Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(0.5f, 1f)).normalized;
-        rb.linearVelocity = randomDirection * speed;
+        rb.linearVelocity = randomDirection * speed; // Updated to use velocity
     }
 
     private void ChangeColor()
@@ -49,7 +49,7 @@ public class BallController : MonoBehaviour
 
     public void StopBall()
     {
-        rb.linearVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero; // Updated to use velocity
     }
 
     public void ResetBall()
@@ -82,6 +82,14 @@ public class BallController : MonoBehaviour
         {
             Object.FindFirstObjectByType<GameManager>().AddStrike();
             ResetBall();
+        }
+
+        // Ensure the ball remains visible by resetting its Z-position
+        if (transform.position.z != 0)
+        {
+            Vector3 pos = transform.position;
+            pos.z = 0;
+            transform.position = pos;
         }
     }
 }
