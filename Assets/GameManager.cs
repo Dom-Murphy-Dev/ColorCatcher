@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro; // For TextMeshPro support
 
 public class GameManager : MonoBehaviour
 {
     public int score = 0; // Player's current score
-    public Text scoreText; // Reference to the score UI Text
+    public TMP_Text scoreText; // Reference to the score UI TextMeshPro
     public GameObject gameOverScreen; // Game Over UI screen
     public BallController ball; // Reference to the BallController script
     public PaddleController paddle; // Reference to the PaddleController script
@@ -17,44 +17,73 @@ public class GameManager : MonoBehaviour
         // Initialize the game state
         score = 0;
         UpdateScoreUI();
-        gameOverScreen.SetActive(false);
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("Game Over screen is not assigned in the Inspector!");
+        }
     }
 
-    // Adds points to the player's score
     public void AddScore(int points)
     {
         score += points;
         UpdateScoreUI();
     }
 
-    // Updates the score UI
-    void UpdateScoreUI()
+    public void UpdateScoreUI()
     {
         if (scoreText != null)
         {
             scoreText.text = "Score: " + score;
         }
+        else
+        {
+            Debug.LogWarning("ScoreText is not assigned in the Inspector!");
+        }
     }
 
-    // Handles the Game Over state
     public void GameOver()
     {
+        if (isGameOver) return; // Prevent multiple game-over calls
+
         isGameOver = true;
-        ball.StopBall(); // Stop the ball from moving
-        gameOverScreen.SetActive(true); // Show Game Over screen
+
+        // Stop the ball and show the game over screen
+        if (ball != null)
+        {
+            ball.StopBall();
+        }
+        else
+        {
+            Debug.LogWarning("Ball is not assigned in the Inspector!");
+        }
+
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+        }
+
         Time.timeScale = 0; // Pause the game
     }
 
-    // Restarts the game
     public void RestartGame()
     {
         Time.timeScale = 1; // Resume the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
     }
 
-    // Resets the ball to its initial state
     public void ResetBall()
     {
-        ball.ResetBall(); // Call the BallController reset logic
+        if (ball != null)
+        {
+            ball.ResetBall();
+        }
+        else
+        {
+            Debug.LogWarning("Ball is not assigned in the Inspector!");
+        }
     }
 }
