@@ -35,7 +35,7 @@ public class PaddleController : MonoBehaviour
         transform.Translate(movement);
 
         // Clamp the paddle within screen bounds
-        float clampedX = Mathf.Clamp(transform.position.x, -8f, 8f);
+        float clampedX = Mathf.Clamp(transform.position.x, 0f, 1536f);
         transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
     }
 
