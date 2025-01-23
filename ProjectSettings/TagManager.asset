@@ -8,6 +8,7 @@ TagManager:
   - Canvas
   - Paddle
   - Ball
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -50,6 +51,9 @@ TagManager:
     locked: 0
   - name: Panel
     uniqueID: 3429154153
+    locked: 0
+  - name: Ball
+    uniqueID: 374591297
     locked: 0
   m_RenderingLayers:
   - Default

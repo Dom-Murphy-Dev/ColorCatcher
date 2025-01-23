@@ -2,47 +2,29 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public float speed = 5f;
-    public Color[] colors;
-    private Rigidbody2D rb;
-    private SpriteRenderer sr;
+    public float speed = 5f; // Ball speed
+    public Color[] colors; // Ball colors
+    private Rigidbody2D rb; // Reference to Rigidbody2D
+    private SpriteRenderer sr; // Reference to SpriteRenderer
+
+    private Vector2 initialPosition = Vector2.zero; // Default spawn position
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+
+        // Store the ball's starting position
+        initialPosition = transform.position;
+
         LaunchBall();
         ChangeColor();
     }
 
     private void LaunchBall()
     {
-        Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-0.5f, 1f)).normalized;
+        Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(0.5f, 1f)).normalized;
         rb.linearVelocity = randomDirection * speed;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            ChangeColor();
-        }
-        else if (collision.gameObject.CompareTag("Paddle"))
-        {
-            PaddleController paddle = collision.gameObject.GetComponent<PaddleController>();
-            if (paddle != null && sr.color == paddle.GetCurrentColor())
-            {
-                // Matching color
-                Debug.Log("Match! Ball kept in play.");
-                Object.FindFirstObjectByType<GameManager>().AddScore(1);
-            }
-            else
-            {
-                // Non-matching color
-                Debug.Log("Game Over!");
-                Object.FindFirstObjectByType<GameManager>().GameOver();
-            }
-        }
     }
 
     private void ChangeColor()
@@ -59,13 +41,48 @@ public class BallController : MonoBehaviour
 
     public void StopBall()
     {
+        // Stop the ball's movement
         rb.linearVelocity = Vector2.zero;
     }
 
     public void ResetBall()
     {
-        transform.position = Vector3.zero;
+        // Reset the ball's position to the initial position
+        transform.position = initialPosition;
+
+        // Stop the ball's movement
+        StopBall();
+
+        // Relaunch the ball and assign a new color
         LaunchBall();
         ChangeColor();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Paddle"))
+        {
+            PaddleController paddle = collision.gameObject.GetComponent<PaddleController>();
+            if (paddle != null && sr.color == paddle.GetCurrentColor())
+            {
+                // Matching color: Add score
+                Object.FindFirstObjectByType<GameManager>().AddScore(1);
+            }
+            else
+            {
+                // Mismatched color: Add a strike
+                Object.FindFirstObjectByType<GameManager>().AddStrike();
+            }
+        }
+    }
+
+    private void Update()
+    {
+        // Trigger strike if the ball passes the Y-axis threshold
+        if (transform.position.y > 99f)
+        {
+            Object.FindFirstObjectByType<GameManager>().AddStrike();
+            ResetBall();
+        }
     }
 }
