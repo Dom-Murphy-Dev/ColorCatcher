@@ -2,27 +2,22 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public float speed = 5f; // Speed of the ball
-    public Color[] colors; // Array of possible colors
-    private Rigidbody2D rb; // Rigidbody2D for physics
-    private SpriteRenderer sr; // SpriteRenderer to change color
+    public float speed = 5f;
+    public Color[] colors;
+    private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-
-        // Launch the ball in a random direction
         LaunchBall();
-
-        // Set the initial color of the ball
         ChangeColor();
     }
 
     private void LaunchBall()
     {
-        // Choose a random direction and normalize the vector
-        Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(0.5f, 1f)).normalized;
+        Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-0.5f, 1f)).normalized;
         rb.linearVelocity = randomDirection * speed;
     }
 
@@ -30,23 +25,21 @@ public class BallController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            // Change the ball's color when it hits a wall
             ChangeColor();
         }
-
-        if (collision.gameObject.CompareTag("Paddle"))
+        else if (collision.gameObject.CompareTag("Paddle"))
         {
-            // Check if the paddle color matches the ball's color
             PaddleController paddle = collision.gameObject.GetComponent<PaddleController>();
             if (paddle != null && sr.color == paddle.GetCurrentColor())
             {
-                // Matching color, continue gameplay
+                // Matching color
                 Debug.Log("Match! Ball kept in play.");
+                Object.FindFirstObjectByType<GameManager>().AddScore(1);
             }
             else
             {
-                // Non-matching color, end the game
-                Debug.Log("Game Over! Ball passed through.");
+                // Non-matching color
+                Debug.Log("Game Over!");
                 Object.FindFirstObjectByType<GameManager>().GameOver();
             }
         }
@@ -54,7 +47,6 @@ public class BallController : MonoBehaviour
 
     private void ChangeColor()
     {
-        // Randomly select a new color from the color array
         if (colors.Length > 0)
         {
             sr.color = colors[Random.Range(0, colors.Length)];
@@ -63,5 +55,17 @@ public class BallController : MonoBehaviour
         {
             Debug.LogWarning("No colors set in the BallController!");
         }
+    }
+
+    public void StopBall()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    public void ResetBall()
+    {
+        transform.position = Vector3.zero;
+        LaunchBall();
+        ChangeColor();
     }
 }
