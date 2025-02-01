@@ -10,6 +10,7 @@ TagManager:
   - Ball
   - Wall
   - OutOfBounds
+  - TopWall
   layers:
   - Default
   - TransparentFX
