@@ -2,61 +2,51 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public RectTransform ballRect; // The ball's RectTransform
-    public RectTransform leftWall, rightWall, topWall; // RectTransforms for walls
-    public float speed = 500f; // Speed of ball movement
-    private Vector2 direction = Vector2.up; // Initial direction
-
+    public float speed = 200f;
+    private Rigidbody2D rb;
     private GameManager gameManager;
 
     private void Start()
     {
-        gameManager = Object.FindFirstObjectByType<GameManager>();
-
-        // Initialize a random direction
-        direction = new Vector2(Random.Range(-1f, 1f), 1f).normalized;
+        gameManager = FindFirstObjectByType<GameManager>();
+        rb = GetComponent<Rigidbody2D>();
+        ResetBall();
     }
 
-    private void Update()
+    private void ResetBall()
     {
-        // Move the ball
-        ballRect.anchoredPosition += direction * speed * Time.deltaTime;
-
-        // Check collisions
-        CheckCollisions();
+        transform.position = new Vector2(400, 185);
+        rb.linearVelocity = new Vector2(Random.Range(-1f, 1f), 1f).normalized * speed;
     }
 
-    private void CheckCollisions()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Vector2 ballPos = ballRect.anchoredPosition;
-
-        // Get ball size (half width and height for bounds)
-        float ballHalfWidth = ballRect.rect.width / 2;
-        float ballHalfHeight = ballRect.rect.height / 2;
-
-        // Collision with left wall
-        if (ballPos.x - ballHalfWidth <= leftWall.anchoredPosition.x + (leftWall.rect.width / 2))
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            direction.x = Mathf.Abs(direction.x); // Reflect to the right
             ChangeColor();
         }
 
-        // Collision with right wall
-        if (ballPos.x + ballHalfWidth >= rightWall.anchoredPosition.x - (rightWall.rect.width / 2))
+        if (collision.gameObject.CompareTag("Paddle"))
         {
-            direction.x = -Mathf.Abs(direction.x); // Reflect to the left
-            ChangeColor();
+            PaddleController paddle = collision.gameObject.GetComponent<PaddleController>();
+            if (paddle != null)
+            {
+                if (GetComponent<SpriteRenderer>().color == paddle.GetCurrentColor())
+                {
+                    gameManager.AddScore(1);
+                    ChangeColor();
+                    speed *= 1.05f;
+                    rb.linearVelocity = rb.linearVelocity.normalized * speed;
+                }
+                else
+                {
+                    gameManager.AddStrike();
+                    ResetBall();
+                }
+            }
         }
 
-        // Collision with top wall
-        if (ballPos.y + ballHalfHeight >= topWall.anchoredPosition.y - (topWall.rect.height / 2))
-        {
-            direction.y = -Mathf.Abs(direction.y); // Reflect downward
-            ChangeColor();
-        }
-
-        // Falling below the screen (falling out of play area)
-        if (ballPos.y < -100f) // Adjust based on your layout
+        if (collision.gameObject.CompareTag("OutOfBounds"))
         {
             gameManager.AddStrike();
             ResetBall();
@@ -66,17 +56,6 @@ public class BallController : MonoBehaviour
     private void ChangeColor()
     {
         if (gameManager != null)
-        {
-            GetComponent<UnityEngine.UI.Image>().color = gameManager.GetNextColor();
-        }
-    }
-
-    public void ResetBall()
-    {
-        // Reset position to the center
-        ballRect.anchoredPosition = Vector2.zero;
-
-        // Assign a new random direction
-        direction = new Vector2(Random.Range(-1f, 1f), 1f).normalized;
+            GetComponent<SpriteRenderer>().color = gameManager.GetNextColor();
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Paddle
   - Ball
   - Wall
+  - OutOfBounds
   layers:
   - Default
   - TransparentFX
@@ -49,11 +50,11 @@ TagManager:
   - name: Background
     uniqueID: 2153910223
     locked: 0
-  - name: GameObjects
-    uniqueID: 3429154153
-    locked: 0
   - name: UI
     uniqueID: 374591297
+    locked: 0
+  - name: Foreground
+    uniqueID: 3429154153
     locked: 0
   m_RenderingLayers:
   - Default
