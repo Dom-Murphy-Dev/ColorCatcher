@@ -211,7 +211,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GameManager.RestartGame()
+          m_StringArgument: RestartGame
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &122060440
@@ -302,12 +302,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorArray:
   - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 1, g: 0.43750405, b: 0, a: 1}
-  - {r: 1, g: 0.93544483, b: 0, a: 1}
-  - {r: 0.27858567, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.15652895, b: 1, a: 1}
-  - {r: 0.60310364, g: 0, b: 1, a: 1}
-  - {r: 1, g: 0, b: 0.8662939, a: 1}
+  - {r: 1, g: 0.3861397, b: 0, a: 1}
+  - {r: 1, g: 0.7866018, b: 0, a: 1}
+  - {r: 0.13885021, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0.06839323, b: 1, a: 1}
+  - {r: 0.58236456, g: 0, b: 1, a: 1}
+  - {r: 0.998508, g: 0, b: 1, a: 1}
   score: 0
   strikes: 0
   maxStrikes: 3
@@ -776,7 +776,7 @@ GameObject:
   - component: {fileID: 653041034}
   - component: {fileID: 653041033}
   m_Layer: 5
-  m_Name: ScoreText
+  m_Name: scoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,7 +798,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -575, y: 633}
+  m_AnchoredPosition: {x: -259, y: 317}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &653041033
@@ -821,7 +821,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: 0'
+  m_text: 'Score: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -989,7 +989,7 @@ GameObject:
   - component: {fileID: 883487141}
   - component: {fileID: 883487140}
   m_Layer: 5
-  m_Name: StrikeText
+  m_Name: strikesText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1011,7 +1011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -578, y: 583}
+  m_AnchoredPosition: {x: -259, y: 264}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &883487140
@@ -1239,7 +1239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
+  m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
@@ -1260,7 +1260,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 922816220}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1681,7 +1681,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1589729729
 MonoBehaviour:
@@ -2156,7 +2156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c9457f4501a0f4b9d4e3216e6da2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 200
+  speed: 350
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     private bool gameStarted = false;
     private bool isGameOver = false;
     private bool canTakeStrike = true;
+    private Coroutine scoreCoroutine;
 
     private void Start()
     {
@@ -39,13 +41,24 @@ public class GameManager : MonoBehaviour
     {
         gameStarted = true;
         canTakeStrike = true;
+        scoreCoroutine = StartCoroutine(IncrementScoreOverTime());
     }
 
-    public void AddScore(int points)
+    private IEnumerator IncrementScoreOverTime()
+    {
+        while (!isGameOver)
+        {
+            score++;
+            UpdateScoreUI();
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public void AddScore(int amount)
     {
         if (isGameOver) return;
 
-        score += points;
+        score += amount;
         UpdateScoreUI();
     }
 
@@ -55,6 +68,7 @@ public class GameManager : MonoBehaviour
 
         canTakeStrike = false;
         strikes++;
+        Debug.Log("Strike Counted: " + strikes);
         UpdateStrikesUI();
 
         if (strikes >= maxStrikes)
@@ -75,7 +89,9 @@ public class GameManager : MonoBehaviour
     private void UpdateScoreUI()
     {
         if (scoreText != null)
+        {
             scoreText.text = "Score: " + score;
+        }
     }
 
     private void UpdateStrikesUI()
@@ -87,6 +103,9 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         isGameOver = true;
+        if (scoreCoroutine != null)
+            StopCoroutine(scoreCoroutine);
+
         if (gameOverScreen != null)
             gameOverScreen.SetActive(true);
 
@@ -117,3 +136,4 @@ public class GameManager : MonoBehaviour
         return colorArray.Length;
     }
 }
+
