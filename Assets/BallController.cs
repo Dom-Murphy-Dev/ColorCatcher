@@ -23,7 +23,6 @@ public class BallController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Paddle"))
         {
-            gameManager.AddScore(1);
             speed *= 1.05f;
             rb.linearVelocity = rb.linearVelocity.normalized * speed;
         }

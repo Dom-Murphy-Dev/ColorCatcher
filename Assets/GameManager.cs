@@ -5,7 +5,7 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public int score = 0;
+    public float score = 0f;
     public int strikes = 0;
     public int maxStrikes = 3;
 
@@ -17,17 +17,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        score = 0;
+        score = 0f;
         strikes = 0;
         isGameOver = false;
         UpdateUI();
         if (gameOverScreen != null) gameOverScreen.SetActive(false);
     }
 
-    public void AddScore(int amount)
+    public void UpdateContinuousScore(float deltaTime)
     {
         if (isGameOver) return;
-        score += amount;
+        score += deltaTime;
         UpdateUI();
     }
 
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (scoreText != null) scoreText.text = "Score: " + score;
+        if (scoreText != null) scoreText.text = "Score: " + Mathf.FloorToInt(score);
         if (strikesText != null) strikesText.text = "Strikes: " + strikes + "/" + maxStrikes;
     }
 
