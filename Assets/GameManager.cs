@@ -18,6 +18,20 @@ public class GameManager : MonoBehaviour
     private bool canTakeStrike = true;
     private Coroutine scoreCoroutine;
 
+    // Color array for both paddle and ball
+    public Color[] colorArray = { Color.red, Color.blue, Color.green, Color.yellow, Color.magenta, Color.cyan };
+
+    public Color GetColorAt(int index) => colorArray[index % colorArray.Length];
+    public int GetColorCount() => colorArray.Length;
+
+    // New method to compare colors
+    public bool AreColorsMatching(Color ballColor, Color paddleColor)
+    {
+        return Mathf.Approximately(ballColor.r, paddleColor.r) &&
+               Mathf.Approximately(ballColor.g, paddleColor.g) &&
+               Mathf.Approximately(ballColor.b, paddleColor.b);
+    }
+
     private void Start()
     {
         score = 0;
@@ -114,6 +128,4 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
-
 }
-
