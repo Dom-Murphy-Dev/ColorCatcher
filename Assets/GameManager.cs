@@ -5,7 +5,7 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public float score = 0f;
+    public int score = 0;
     public int strikes = 0;
     public int maxStrikes = 3;
 
@@ -13,42 +13,107 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI strikesText;
     public GameObject gameOverScreen;
 
+    private bool gameStarted = false;
     private bool isGameOver = false;
+    private bool canTakeStrike = true;
+    private Coroutine scoreCoroutine;
 
     private void Start()
     {
-        score = 0f;
+        score = 0;
         strikes = 0;
         isGameOver = false;
-        UpdateUI();
-        if (gameOverScreen != null) gameOverScreen.SetActive(false);
+        gameStarted = false;
+
+        UpdateScoreUI();
+        UpdateStrikesUI();
+
+        if (gameOverScreen != null)
+            gameOverScreen.SetActive(false);
+
+        Invoke("EnableStrikeChecking", 2f);
     }
 
-    public void UpdateContinuousScore(float deltaTime)
+    private void EnableStrikeChecking()
+    {
+        gameStarted = true;
+        canTakeStrike = true;
+        scoreCoroutine = StartCoroutine(IncrementScoreOverTime());
+    }
+
+    private IEnumerator IncrementScoreOverTime()
+    {
+        while (!isGameOver)
+        {
+            score++;
+            UpdateScoreUI();
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public void AddScore(int amount)
     {
         if (isGameOver) return;
-        score += deltaTime;
-        UpdateUI();
+
+        score += amount;
+        UpdateScoreUI();
     }
 
     public void AddStrike()
     {
-        if (isGameOver) return;
+        if (isGameOver || !gameStarted || !canTakeStrike) return;
+
+        canTakeStrike = false;
         strikes++;
-        UpdateUI();
-        if (strikes >= maxStrikes) GameOver();
+        Debug.Log("Strike Counted: " + strikes);
+        UpdateStrikesUI();
+
+        if (strikes >= maxStrikes)
+        {
+            GameOver();
+        }
+        else
+        {
+            Invoke("ResetStrikeCooldown", 1f);
+        }
     }
 
-    private void UpdateUI()
+    private void ResetStrikeCooldown()
     {
-        if (scoreText != null) scoreText.text = "Score: " + Mathf.FloorToInt(score);
-        if (strikesText != null) strikesText.text = "Strikes: " + strikes + "/" + maxStrikes;
+        canTakeStrike = true;
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
+    }
+
+    private void UpdateStrikesUI()
+    {
+        if (strikesText != null)
+            strikesText.text = "Strikes: " + strikes + "/" + maxStrikes;
     }
 
     private void GameOver()
     {
         isGameOver = true;
-        if (gameOverScreen != null) gameOverScreen.SetActive(true);
+        if (scoreCoroutine != null)
+            StopCoroutine(scoreCoroutine);
+
+        if (gameOverScreen != null)
+            gameOverScreen.SetActive(true);
+
         Time.timeScale = 0;
     }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
 }
+
