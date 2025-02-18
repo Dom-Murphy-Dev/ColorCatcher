@@ -300,14 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdec433997610544a373055f867a8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorArray:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 1, g: 0.3861397, b: 0, a: 1}
-  - {r: 1, g: 0.7866018, b: 0, a: 1}
-  - {r: 0.13885021, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.06839323, b: 1, a: 1}
-  - {r: 0.58236456, g: 0, b: 1, a: 1}
-  - {r: 0.998508, g: 0, b: 1, a: 1}
   score: 0
   strikes: 0
   maxStrikes: 3
@@ -326,7 +318,7 @@ GameObject:
   - component: {fileID: 174488698}
   - component: {fileID: 174488697}
   - component: {fileID: 174488696}
-  - component: {fileID: 174488695}
+  - component: {fileID: 174488700}
   m_Layer: 0
   m_Name: Paddle
   m_TagString: Untagged
@@ -334,23 +326,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &174488695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174488694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf447b7fdb51f754c978c1adfa7f0f4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 174488697}
-  ballCheck: {fileID: 2006367994}
-  foreground:
-    serializedVersion: 2
-    m_Bits: 32
 --- !u!61 &174488696
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -494,6 +469,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &174488700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174488694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf447b7fdb51f754c978c1adfa7f0f4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 174488697}
 --- !u!1 &271363042
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,7 +2144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c9457f4501a0f4b9d4e3216e6da2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 350
+  speed: 200
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
